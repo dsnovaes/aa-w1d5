@@ -1,5 +1,7 @@
 require "byebug"
 
+$vowels = "aeiouAEIOU"
+
 array_1 = ['a', 'b', 'c']
 array_2 = [1, 2, 3]
 array_3 = ['w', 'x', 'y']
@@ -8,6 +10,13 @@ div_3 = Proc.new { |n| n % 3 == 0 }
 div_5 = Proc.new { |n| n % 5 == 0 }
 ends_ly = Proc.new { |s| s.end_with?('ly') }
 has_i = Proc.new { |s| s.include?('i') }
+array_5 = ['mouse', 'dog', 'goat', 'bird', 'cat']
+array_6 =  [1, 2, 9, 30, 11, 38] 
+array_7 = ['potato', 'swimming', 'cat']
+array_8 = ['cat', 'bootcamp', 'swimming', 'ooooo']
+array_9 = ['photo','bottle', 'bother']
+length = Proc.new { |s| s.length }
+o_count = Proc.new { |s| s.count('o') }
 
 #############################################
 
@@ -86,3 +95,85 @@ end
 # p maximum([2, 4, -5, 1]) { |n| n * n } # => -5
 # p maximum(['potato', 'swimming', 'cat']) { |w| w.length } # => swimming
 # p maximum(['boot', 'cat', 'drop']) { |w| w.length } # => drop
+
+def my_group_by(arr, &prc)
+    result = Hash.new { |h, k| h[k] = [] }
+    arr.each { |ele| result[prc.call(ele)] << ele  }
+    result
+end
+
+# p my_group_by(array_5) { |s| s.length }
+
+def max_tie_breaker(arr, prc, &blk)
+    max = arr[0]
+    arr.each do |ele| 
+        # debugger
+        b_e = blk.call(ele)
+        b_m = blk.call(max)
+        if b_e == b_m
+            prc_e = prc.call(ele)
+            prc_m = prc.call(max)
+            if prc_e > prc_m
+                ele
+            end
+        elsif b_e > b_m
+            max = ele
+        end
+    end
+    max
+end
+
+# p max_tie_breaker(array_7, o_count, &length) # => swimming
+# p max_tie_breaker(array_8, length, &o_count) # => ooooo
+# p max_tie_breaker(array_8, o_count, &length) # => bootcamp
+# p max_tie_breaker(array_9, o_count, &length) # => bottle
+# p max_tie_breaker([], o_count, &length) # => nil
+
+def silly_syllables(sentence)
+    arr = sentence.split(" ")
+    result = []
+    arr.each do |word| 
+        if vowel_count(word) < 2
+            result << word
+        else
+            result << word.slice(first_vowel(word),last_vowel(word))
+        end
+    end
+    result.join(" ")
+end
+
+def first_vowel(str)
+    str.each_char.with_index { |char,i| return i if $vowels.include?(char) }
+    return 0
+end
+
+def last_vowel(str)
+    # i = 0
+    # (0...str.length).each do |x|
+    #     i = x if $vowels.include?(str[x])
+    # end
+    # i
+
+    i = str.length - 1
+    while i > 0
+        if $vowels.include?(str[i]) && i == str.length-1
+            return i
+        elsif $vowels.include?(str[i]) && i != str.length-1
+            return i-1
+        end
+        i -=1
+    end
+
+end
+
+def vowel_count(str)
+    count = 0
+    str.each_char { |char| count += 1 if $vowels.include?(char) }
+    count
+end
+
+
+p silly_syllables('properly precisely written code') # => ope ecise itte ode
+p silly_syllables('trashcans collect garbage') # => ashca olle arbage
+p silly_syllables('properly and precisely written code') # => ope and ecise itte ode
+p silly_syllables('the trashcans collect all my garbage') # => the ashca olle all my arbage
