@@ -63,9 +63,12 @@ end
 # p counted_characters("runtime") # []
 
 def triplet_true?(str)
-    count = Hash.new(0)
-    str.each_char { |char| count[char] += 1 }
-    count.select { |k,v| v > 2 }.count != 0
+    str.each_char.with_index do |char,i|
+        if str[i+2] == str[i] && str[i] == str[i+1] # coulb be written also as str[i..i+2] == str[i] * 3
+            return true
+        end
+    end
+    return false
 end
 
 # p triplet_true?('caaabb')        # true

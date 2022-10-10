@@ -108,7 +108,6 @@ def disjunct_select(arr, *prcs)
     result.uniq
 end
 
-
 longer_four = Proc.new { |s| s.length > 4 }
 contains_o = Proc.new { |s| s.include?('o') }
 starts_a = Proc.new { |s| s[0] == 'a' }
@@ -201,6 +200,6 @@ def compress(str)
     result
 end
 
-p compress('aabbbbc')   # "a2b4c"
-p compress('boot')      # "bo2t"
-p compress('xxxyxxzzzz')# "x3yx2z4"
+# p compress('aabbbbc')   # "a2b4c"
+# p compress('boot')      # "bo2t"
+# p compress('xxxyxxzzzz')# "x3yx2z4"

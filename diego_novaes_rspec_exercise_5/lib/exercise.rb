@@ -32,6 +32,7 @@ def zip(*arrays)
     result
 
     # given answer in the solutions file
+
     # length = arrays.first.length
 
     # (0...length).map do |i|
@@ -136,7 +137,8 @@ def silly_syllables(sentence)
         if vowel_count(word) < 2
             result << word
         else
-            result << word.slice(first_vowel(word),last_vowel(word))
+            # result << word.slice(first_vowel(word),last_vowel(word))
+            result << word[first_vowel(word)..last_vowel(word)]
         end
     end
     result.join(" ")
@@ -156,14 +158,12 @@ def last_vowel(str)
 
     i = str.length - 1
     while i > 0
-        if $vowels.include?(str[i]) && i == str.length-1
+        if $vowels.include?(str[i])
             return i
-        elsif $vowels.include?(str[i]) && i != str.length-1
-            return i-1
         end
         i -=1
     end
-
+    i
 end
 
 def vowel_count(str)
@@ -172,8 +172,7 @@ def vowel_count(str)
     count
 end
 
-
-p silly_syllables('properly precisely written code') # => ope ecise itte ode
-p silly_syllables('trashcans collect garbage') # => ashca olle arbage
-p silly_syllables('properly and precisely written code') # => ope and ecise itte ode
-p silly_syllables('the trashcans collect all my garbage') # => the ashca olle all my arbage
+# p silly_syllables('properly precisely written code') # => ope ecise itte ode
+# p silly_syllables('trashcans collect garbage') # => ashca olle arbage
+# p silly_syllables('properly and precisely written code') # => ope and ecise itte ode
+# p silly_syllables('the trashcans collect all my garbage') # => the ashca olle all my arbage
