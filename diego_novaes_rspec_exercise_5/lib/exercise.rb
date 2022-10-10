@@ -59,20 +59,26 @@ end
 # ) # ['honestly', 'sully', 'trick']
 
 def zany_zip(*arrays)
-    max = []
-    arrays.each { |array| max << array.length }
-    # debugger
-    result = Array.new(arrays.count) { Array.new(max.max, nil) }
-    # arrays.each_with_index do |array,ai|
-    #     array.each_with_index do |ele,idx| 
-    #         # debugger
-    #         result[idx][ai] = ele
-    #     end
+    # max = []
+    # arrays.each { |array| max << array.length }
+    # # debugger
+    # result = Array.new(max.max) { Array.new(arrays.count, nil) }
+    # max.each do |i|
+    #     # debugger
+    #     arrays.map { |array| array[i] }
     # end
-    result
+    # result
+
+    # go through this again to understand better the concept 
+    length = arrays.map(&:length).max
+
+    (0...length).map do |i|
+        # debugger
+        arrays.map { |array| array[i] }
+    end
 end
 
-# p zany_zip(array_3, array_2, array_4)
+p zany_zip(array_3, array_2, array_4)
 
 
 def maximum(arr, &prc)
